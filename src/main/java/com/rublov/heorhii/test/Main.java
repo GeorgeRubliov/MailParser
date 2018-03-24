@@ -15,9 +15,14 @@ public class Main {
         List<String> textList = mail.getText(messageList);
         textList = mail.clearFromHTML(textList);
         List<MessageMail> messageMails = mail.separateByLines(textList);
-        MakeXMLFile mxml = new MakeXMLFile();
-        mxml.make(messageMails);
-        mail.sendMail(from, to, password);
+        if(messageMails.isEmpty() || messageMails == null){
+            System.out.println("no new messages");
+        }else{
+            MakeXMLFile mxml = new MakeXMLFile();
+            mxml.make(messageMails);
+            mail.sendMail(from, to, password);
+        }
+
 
     }
 

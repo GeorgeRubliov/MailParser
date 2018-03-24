@@ -32,7 +32,7 @@ public class SendAndTakeMail {
             Store store = session.getStore("imaps");
             store.connect(props.getProperty("mail.pop3.host"), out, password);
             Folder folder = store.getFolder("inbox");
-            folder.open(Folder.READ_ONLY);
+            folder.open(Folder.READ_WRITE);
             List<Message> messages = Arrays.asList(folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false)));
             for(Message message: messages){
                 if(message.getSubject().contains(subject)){
@@ -130,7 +130,6 @@ public class SendAndTakeMail {
 
         for(int i=0; i<textList.size(); i++){
             MessageMail mm = new MessageMail();
-            List<Invoice> invoiceList = new ArrayList<>();
             mm.setAllText(textList.get(i).split("\r"));
             List<List<String>>list = mm.getLists();
             for(int j=0; j<mm.allText.length; j++){
