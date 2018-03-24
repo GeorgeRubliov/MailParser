@@ -1,6 +1,8 @@
 package com.rublov.heorhii.test;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import java.util.List;
 
 public class Main {
 
@@ -8,11 +10,13 @@ public class Main {
         String from = args[0];
         String to = args[1];
         String password = args[2];
-        System.out.println(from + "  " + to + "   " +password);
-        new SendMail().send(to, from,password);
-//        GetMail mail = new GetMail();
 
-//            mail.getMails(from, password);
+        SendAndTakeMail mail = new SendAndTakeMail();
+        List<Message> messageList = mail.takeMail(from, password, "Test Plexsupply");
+        List<String> textList = mail.getText(messageList);
+        textList = mail.clearFromHTML(textList);
+        List<MessageMail> messageMails = mail.separateByLines(textList);
+        System.out.println(messageMails);
 
     }
 
