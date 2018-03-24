@@ -2,10 +2,16 @@ package com.rublov.heorhii.test;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
 import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.mail.search.FlagTerm;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -34,13 +40,46 @@ public class SendAndTakeMail {
                 }
             }
         }catch (Exception e){
-
+            System.out.println(e);
         }
         return allMessages;
     }
 
     public void sendMail(final String out, final String to, final String password){
 
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator(){
+           protected PasswordAuthentication getPasswordAuthentication(){
+               return new PasswordAuthentication(out, password);
+           }
+        });
+        try{
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(out));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setSubject("Test");
+            message.setText("Test Test Test");
+
+            MimeBodyPart mimeBodyPart = new MimeBodyPart();
+            Multipart multipart = new MimeMultipart();
+            DataSource source  = new FileDataSource("test.xlsx");
+            mimeBodyPart.setDataHandler(new DataHandler(source));
+            mimeBodyPart.setFileName("test.xlsx");
+            multipart.addBodyPart(mimeBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+            File file = new File("test.xlsx");
+            file.delete();
+        }catch (MessagingException e){
+            System.out.println(e);
+        }
     }
 
     public List<String> getText(List<Message> messageList) {
@@ -64,7 +103,6 @@ public class SendAndTakeMail {
             String disposition = bodyPart.getDisposition();
             if (disposition != null && (disposition.equals(BodyPart.ATTACHMENT))) {
                 System.out.println("Mail have some attachment : ");
-
                 DataHandler handler = bodyPart.getDataHandler();
                 System.out.println("file name : " + handler.getName());
             } else {
@@ -80,7 +118,6 @@ public class SendAndTakeMail {
 
     public List<String> clearFromHTML(List<String> textListWithHTML) {
         List<String> clearText = new LinkedList<>();
-        System.out.println(textListWithHTML.size());
         for(int i=0; i<textListWithHTML.size(); i++){
             Document doc = Jsoup.parse(textListWithHTML.get(i));
             clearText.add(doc.body().text());

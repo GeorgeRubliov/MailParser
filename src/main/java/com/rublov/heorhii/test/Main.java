@@ -1,7 +1,6 @@
 package com.rublov.heorhii.test;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import java.util.List;
 
 public class Main {
@@ -16,7 +15,9 @@ public class Main {
         List<String> textList = mail.getText(messageList);
         textList = mail.clearFromHTML(textList);
         List<MessageMail> messageMails = mail.separateByLines(textList);
-        System.out.println(messageMails);
+        MakeXMLFile mxml = new MakeXMLFile();
+        mxml.make(messageMails);
+        mail.sendMail(from, to, password);
 
     }
 

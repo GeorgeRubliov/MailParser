@@ -28,9 +28,14 @@ public class MessageMail {
         this.allText = allText;
     }
 
-    public void printList(){
-        for(int i=0; i<allText.length; i++){
-            System.out.println(allText[i]);
+
+
+    public void printLists(){
+        for(int i=0; i<lists.size(); i++){
+            System.out.println("Line # "+i);
+            for(int a=0; a<lists.get(i).size(); a++){
+                System.out.println("cell # "+a+": "+lists.get(i).get(a));
+            }
         }
     }
 
@@ -39,5 +44,6 @@ public class MessageMail {
         return "MessageMail{" +
                 "lists=" + lists +
                 '}';
+
     }
 }
