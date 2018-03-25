@@ -125,26 +125,26 @@ public class SendAndTakeMail {
         return clearText;
     }
 
-    public List<MessageMail> separateByLines(List<String> textList) {
-        List<MessageMail> text = new LinkedList<>();
-
-        for(int i=0; i<textList.size(); i++){
-            MessageMail mm = new MessageMail();
-            mm.setAllText(textList.get(i).split("\r"));
-            List<List<String>>list = mm.getLists();
-            for(int j=0; j<mm.allText.length; j++){
-                String ts = mm.allText[j].replaceAll("[\\s]{2,}",";");
-                List<String> st = Arrays.asList(ts.split(";"));
-                List<String> temp = new ArrayList<>();
-                for(int d=0; d<st.size(); d++){
-                    temp.add(st.get(d));
-                }
-                list.add(temp);
-            }
-            text.add(mm);
-        }
-
-        return text;
-    }
+//    public List<MessageMail> separateByLines(List<String> textList) {
+//        List<MessageMail> text = new LinkedList<>();
+//
+//        for(int i=0; i<textList.size(); i++){
+//            MessageMail mm = new MessageMail();
+//            mm.setAllText(textList.get(i).split("\r"));
+//            List<List<String>>list = mm.getLists();
+//            for(int j=0; j<mm.allText.length; j++){
+//                String ts = mm.allText[j].replaceAll("[\\s]{2,}",";");
+//                List<String> st = Arrays.asList(ts.split(";"));
+//                List<String> temp = new ArrayList<>();
+//                for(int d=0; d<st.size(); d++){
+//                    temp.add(st.get(d));
+//                }
+//                list.add(temp);
+//            }
+//            text.add(mm);
+//        }
+//
+//        return text;
+//    }
 
 }
