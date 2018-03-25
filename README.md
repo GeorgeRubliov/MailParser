@@ -2,9 +2,9 @@
 
 <h2>IMPORTANT<h2>
 <pre>Before using a google account you need to torn on Less secure app by 
-link: https://myaccount.googlecom/lesssecureapps
+link: https://myaccount.googlecom/lesssecureapps</pre> 
 
-Send parametrs to the performoing file
+Send parameters to the performing file
 1. Email out
 2. Email to
-3. Password for out email</pre> 
+3. Password for out email
