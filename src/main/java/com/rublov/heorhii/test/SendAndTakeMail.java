@@ -30,7 +30,7 @@ public class SendAndTakeMail {
             Store store = session.getStore("imaps");
             store.connect(props.getProperty("mail.pop3.host"), out, password);
             Folder folder = store.getFolder("inbox");
-            folder.open(Folder.READ_ONLY);
+            folder.open(Folder.READ_WRITE);
             List<Message> messages = Arrays.asList(folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false)));
             for(Message message: messages){
                 if(message.getSubject().contains(subject)){
@@ -117,8 +117,6 @@ public class SendAndTakeMail {
     public List<String> clearFromHTML(List<String> textListWithHTML) {
         List<String> clearText = new LinkedList<>();
         for(int i=0; i<textListWithHTML.size(); i++){
-//            Document doc = Jsoup.parse(textListWithHTML.get(i));
-//            clearText.add(doc.body().text());
             String temp = textListWithHTML.get(i).replaceAll("\\<[^>]*>","");
             clearText.add(temp);
         }
