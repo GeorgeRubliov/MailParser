@@ -1,7 +1,5 @@
 package com.rublov.heorhii.test;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -32,7 +30,7 @@ public class SendAndTakeMail {
             Store store = session.getStore("imaps");
             store.connect(props.getProperty("mail.pop3.host"), out, password);
             Folder folder = store.getFolder("inbox");
-            folder.open(Folder.READ_WRITE);
+            folder.open(Folder.READ_ONLY);
             List<Message> messages = Arrays.asList(folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false)));
             for(Message message: messages){
                 if(message.getSubject().contains(subject)){
@@ -119,32 +117,12 @@ public class SendAndTakeMail {
     public List<String> clearFromHTML(List<String> textListWithHTML) {
         List<String> clearText = new LinkedList<>();
         for(int i=0; i<textListWithHTML.size(); i++){
-            Document doc = Jsoup.parse(textListWithHTML.get(i));
-            clearText.add(doc.body().text());
+//            Document doc = Jsoup.parse(textListWithHTML.get(i));
+//            clearText.add(doc.body().text());
+            String temp = textListWithHTML.get(i).replaceAll("\\<[^>]*>","");
+            clearText.add(temp);
         }
         return clearText;
     }
-
-//    public List<MessageMail> separateByLines(List<String> textList) {
-//        List<MessageMail> text = new LinkedList<>();
-//
-//        for(int i=0; i<textList.size(); i++){
-//            MessageMail mm = new MessageMail();
-//            mm.setAllText(textList.get(i).split("\r"));
-//            List<List<String>>list = mm.getLists();
-//            for(int j=0; j<mm.allText.length; j++){
-//                String ts = mm.allText[j].replaceAll("[\\s]{2,}",";");
-//                List<String> st = Arrays.asList(ts.split(";"));
-//                List<String> temp = new ArrayList<>();
-//                for(int d=0; d<st.size(); d++){
-//                    temp.add(st.get(d));
-//                }
-//                list.add(temp);
-//            }
-//            text.add(mm);
-//        }
-//
-//        return text;
-//    }
 
 }
